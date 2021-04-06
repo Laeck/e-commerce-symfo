@@ -1,0 +1,73 @@
+{# On hérite du template de base ! #}
+{% extends "base.html.twig" %}
+
+{# Et on le place dans le body #}
+{% block body %}
+	<h1>
+		Hello
+		{{ name }}</h1>
+
+	{# Afficher les variables qui ont été passées en paramètre #}
+	<p>
+		vous avez
+		{{ age}}
+	</p>
+
+	{#  Les conditions avec twig #}
+	<p>
+		{% if age >= 18 %}
+			Vous êtes un adulte
+		{% else %}
+			vous êtes un enfant
+		{% endif %}
+	</p>
+
+	<ul>
+		{% for personne in prenoms %}
+			{# Ajout d'un filtre twig #}
+			<li>
+				{{ personne | upper}}
+			</li>
+		{% endfor %}
+	</ul>
+
+	{# Les boucles avec twig #}
+	<ul>
+		{% for i in 1..10 %}
+			<li>Numéro
+				{{ i }}
+			</li>
+		{% endfor %}
+	</ul>
+
+	{# Tableau associatif ou objet #}
+	<p>
+		Mon developpeur c'est
+		<strong>{{ formateur1.prenom }}
+		</strong>
+		{{ formateur1.nom }}
+		et il a
+		{{ formateur1.age }}
+		son slogan c'est
+		{{ formateur1.slogan }}
+	</p>
+
+    <h2> Nos formateur </h2>
+    {# Inclusion de plusieurs template mais avec la mm structure #}
+    {% include "_formateur.html.twig" with {"formateur": formateur1} %}
+    {% include "_formateur.html.twig" with {"formateur": formateur2} %}
+
+	{# EXERCICE ! #}
+	<ul>
+		{% for personne in ages %}
+			{% if personne >= 18 %}
+				<li>
+					Adulte
+				</li>
+			{% else %}
+				<li>
+					Enfant
+				</li>
+			{% endif %}
+		{% endfor %}
+{% endblock %}

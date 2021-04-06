@@ -1,0 +1,86 @@
+CREATION DU PROJET
+- symfony new cours-ecommerce --version=5.1
+
+SERVEUR SYMFO 
+- php -s localhost:8000 -t public
+
+
+CERTIFICAT
+- symfony server:ca:install (installation du certificat et permet de dev en httpS)
+- symfony serve -d (nous permet de lancer le site avec le certificat, site en local
+et fait tourner le serveur en arriere plan dans le terminal)
+-symfony server:stop (pour arrêter le serve)
+
+DEBUG/DUMP
+- dump // Est une librairie plus puissante que var_dump
+- dd() // raccourcie pour dump and die !
+
+HTTPFOUNDATION 
+- package permettant de manipuler les requetes $request et la reponse http
+et nous permet d'éviter les superglobales qui sont pas fluide a utiliser :
+
+ public function test(Request $request)
+    {
+        // remplacé par Request $request et n'est plus obligatoire
+        $request = Request::createFromGlobals();
+        //
+
+        dump($request);
+
+        $age = $request->query->get('age', 0);
+
+        // Tous nos controller doivent retourner un objet Response
+        return new Response("Vous avez $age ans !");    
+    }
+};
+nous permet d'acceder a $_GET['POST'] $_GET['GET'] etc...
+dump(Request). Un bag est une surccouche tableau associatif avec des methodes
+
+ROUTE
+- Dans le path on peut définir un parametre ex :
+path: /test{age} {age} est le paramètre ! 
+trouvable avec $age = $request->attributes->get('age', 0); // ATTRIBUTES et non plus query
+
+- Default dans le fichier YAML ROUTE on peut définir un parametre par défaut ex:
+defaults:
+  age: 0
+
+- requirements: permet de definir des contraintes pour nos parametre de route
+requirements: 
+   age: \d+
+   
+- Method : permet de mettre des contraintes sur nos routes
+
+- On peut aussi utiliser les routes (annotations dans le controller directement)
+
+SYMFONY FLEX
+- Un pluggin de composer et l'améliore : Nous permet par exemple de trouver
+le package composer require annotations qui n'existe pas dans packagist et nous
+permettra d'utiliser les annotations !
+Nous permet aussi d'installer des plugins avec des alias :
+exemple : composer require mailer au lieu de : composer require symfony/mailer
+Mais aussi : l'utilisation de recette et la configuration des packages automatique
+
+CONTAINER DE SERVICE
+- php bin/console debug:autowiring 
+- Il permet d'analyser les classes qu'on injecte dans les constructeur. 
+- On peut configurer notre container dans services
+
+LIBRAIRIE / BUNDLES
+- Librairie doit être configuré dans les services pour que le container la connaisse
+- Bundle s'installe automatique et sans "reglages" ! 
+
+AUTOWIRING 
+- bin/console debug:autowiring --all nous permet de voir tous les outils 
+que le container de service(classe) connait
+
+TWIG
+- Langage de template : permet d'écrire des affichages HTML/php plus simplement
+- tags = fait quelque chose
+- filters = je veux afficher quelque chose
+- function = format les date etc... 
+
+DOCTRYNE 
+- Les entités : representent les enregistrements de nos tables dans notre bdd
+- Repository : objet qui permet de faire des selections sur nos tables
+- Entity manager : manipule les entités (creation, ajout, suppression...)
